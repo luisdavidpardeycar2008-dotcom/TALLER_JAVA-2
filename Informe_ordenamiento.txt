@@ -1,0 +1,102 @@
+ACTIVIDAD: METODOS DE ORDENAMIENTO
+
+1. INTEGRANTES DEL GRUPO
+
+Integrante 1: [LUIS DAVID PARDEY CARDOZO]
+Integrante 2: [CAMILO ANDRES HERNÁNDEZ CAÑATE]
+Integrante 3: [Manuel Palma]
+
+2. METODO DESARROLLADO Y CODIGO FUENTE
+
+Metodo: Bubble Sort (ordenamiento burbuja).
+
+Este metodo compara numeros vecinos y cambia sus posiciones cuando
+estan desordenados. Repite el proceso hasta organizar todos los numeros
+de menor a mayor. Se utilizo Java y un vector original de 100.000
+numeros aleatorios entre 1 y 1000. Los numeros se copiaron a otro
+vector para ordenarlos sin modificar los originales.
+
+Primero se mostro una prueba con 30 numeros para que el profesor
+verificara el resultado. Despues se midio el tiempo de ordenamiento
+de 10.000 numeros y de 100.000 numeros.
+
+Codigo fuente completo (Main.java):
+
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Random aleatorio = new Random();
+        int[] numeros = new int[100000];
+
+        // Llenar el vector original con numeros aleatorios de 1 a 1000.
+        for (int i = 0; i < numeros.length; i++) {
+            numeros[i] = aleatorio.nextInt(1000) + 1;
+        }
+
+        // Prueba de 30 numeros: el original no se modifica.
+        int[] original_30 = Arrays.copyOf(numeros, 30);
+        int[] ordenado_30 = original_30.clone();
+        ordenar_burbuja(ordenado_30);
+
+        System.out.println("PRUEBA CON 30 NUMEROS");
+        System.out.println("Original: " + Arrays.toString(original_30));
+        System.out.println("Ordenado: " + Arrays.toString(ordenado_30));
+        System.out.println("Llama al profesor para verificar el ordenamiento.");
+        System.out.print("Presiona ENTER para continuar con los tiempos...");
+
+        Scanner entrada = new Scanner(System.in);
+        entrada.nextLine();
+
+        // Medir solamente el ordenamiento de 10.000 numeros.
+        int[] ordenado_10000 = Arrays.copyOf(numeros, 10000);
+        long inicio_10000 = System.nanoTime();
+        ordenar_burbuja(ordenado_10000);
+        long tiempo_10000 = System.nanoTime() - inicio_10000;
+
+        // Medir solamente el ordenamiento de 100.000 numeros.
+        int[] ordenado_100000 = numeros.clone();
+        long inicio_100000 = System.nanoTime();
+        ordenar_burbuja(ordenado_100000);
+        long tiempo_100000 = System.nanoTime() - inicio_100000;
+
+        System.out.println("\nRESULTADOS - BUBBLE SORT (BURBUJA)");
+        System.out.printf("10.000 numeros: %.3f ms%n", tiempo_10000 / 1000000.0);
+        System.out.printf("100.000 numeros: %.3f ms%n", tiempo_100000 / 1000000.0);
+    }
+
+    // Compara dos numeros vecinos y los intercambia cuando estan desordenados.
+    public static void ordenar_burbuja(int[] vector) {
+        for (int i = 0; i < vector.length - 1; i++) {
+            boolean hubo_cambios = false;
+
+            for (int j = 0; j < vector.length - 1 - i; j++) {
+                if (vector[j] > vector[j + 1]) {
+                    int auxiliar = vector[j];
+                    vector[j] = vector[j + 1];
+                    vector[j + 1] = auxiliar;
+                    hubo_cambios = true;
+                }
+            }
+
+            if (!hubo_cambios) {
+                break;
+            }
+        }
+    }
+}
+
+3. TIEMPO PARA ORDENAR 10.000 NUMEROS
+
+Tiempo obtenido: 51.248 milisegundos.
+
+4. TIEMPO PARA ORDENAR 100.000 NUMEROS
+
+Tiempo obtenido: 10671.325 milisegundos.
+
+NOTA: Estos son tiempos reales de una ejecucion de prueba y pueden
+variar segun el equipo. Si ejecutan el programa en otro computador,
+actualicen los valores con los que aparezcan en su consola.
